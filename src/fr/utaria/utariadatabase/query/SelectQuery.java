@@ -5,46 +5,62 @@ import fr.utaria.utariadatabase.result.DatabaseSet;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class QuerySelect implements IQuery {
+public class SelectQuery implements IQuery {
 
 	private Database db;
+
 	private String[] fields;
 	private String[] froms;
 	private String[] conditions;
 	private String[] orders;
+	private int   [] limits;
 	private Object[] attributes;
 
+	private List<String[]> joins;
 
-	public QuerySelect(Database db, String... fields) {
+
+	public SelectQuery(Database db, String... fields) {
 		this.db         = db;
 		this.fields     = fields;
 		this.conditions = new String[0];
 		this.orders     = new String[0];
 		this.attributes = new String[0];
+		this.limits     = new int[0];
+
+		this.joins      = new ArrayList<>();
 
 		if (this.fields.length == 0)
 			this.fields = new String[]{ "*" };
 	}
 
+
 	public Object[] getAttributes() { return this.attributes; }
 
 
-
-	public QuerySelect from(String ...froms) {
+	public SelectQuery from(String ...froms) {
 		this.froms = froms;
 		return this;
 	}
-	public QuerySelect where(String ...conditions) {
+	public SelectQuery join(String table, String field1, String field2) {
+		this.joins.add(new String[]{ table, field1, field2 });
+		return this;
+	}
+	public SelectQuery where(String ...conditions) {
 		this.conditions = conditions;
 		return this;
 	}
-	public QuerySelect order(String ...orders) {
+	public SelectQuery order(String ...orders) {
 		this.orders = orders;
 		return this;
 	}
-	public QuerySelect attributes(Object ...attributes) {
+	public SelectQuery limit(int begin, int end) {
+		this.limits = new int[]{ begin, end };
+		return this;
+	}
+	public SelectQuery attributes(Object ...attributes) {
 		this.attributes = attributes;
 		return this;
 	}
@@ -60,6 +76,7 @@ public class QuerySelect implements IQuery {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
 		return null;
 	}
 
@@ -72,13 +89,18 @@ public class QuerySelect implements IQuery {
 		request.append(" FROM ");
 		request.append(StringUtils.join(this.froms , ","));
 
+		if (this.joins.size() > 0)
+			for (String[] join : this.joins)
+				request.append(" JOIN ").append(join[0]).append(" ON ").append(join[1]).append(" = ").append(join[2]);
+
 		if (this.conditions.length > 0)
 			request.append(" WHERE ").append(StringUtils.join(this.conditions, "AND "));
 		if (this.orders.length     > 0)
 			request.append(" ORDER BY ").append(StringUtils.join(this.orders, ","));
+		if (this.limits.length     > 0)
+			request.append(" LIMIT ").append(this.limits[0]).append(",").append(this.limits[1]);
 
 		return request.toString();
 	}
-
 
 }

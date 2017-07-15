@@ -1,7 +1,9 @@
 package fr.utaria.utariadatabase.query;
 
-interface IQuery {
+public interface IQuery {
 
 	String getRequest();
+
+	Object[] getAttributes();
 
 }

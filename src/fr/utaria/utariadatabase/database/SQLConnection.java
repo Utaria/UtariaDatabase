@@ -55,8 +55,8 @@ class SQLConnection {
 
 			// Récupération des clés de sécurité dans le plugin
 			String      keyName          = sshUser.replace("db", "");
-			InputStream privateKeyStream = SQLConnection.class.getResourceAsStream("/keys/development/" + keyName + ".key");
-			InputStream publicKeyStream  = SQLConnection.class.getResourceAsStream("/keys/development/" + keyName + ".key.pub");
+			InputStream privateKeyStream = SQLConnection.class.getResourceAsStream("/keys/" + Config.environment + "/" + keyName + ".key");
+			InputStream publicKeyStream  = SQLConnection.class.getResourceAsStream("/keys/" + Config.environment + "/" + keyName + ".key.pub");
 
 			if (privateKeyStream == null || publicKeyStream == null)
 				throw new NullPointerException("Clé privée ou publique inexistante pour l'utilisateur " + sshUser + " !");
@@ -92,18 +92,15 @@ class SQLConnection {
 	}
 
 	private boolean connectToDataBase() throws SQLException {
-		String dbuserName = "root";
-		String dbpassword = "root";
-
 		try {
 			// Connexion à la base de données
 			MysqlDataSource dataSource = new MysqlDataSource();
 			dataSource.setServerName(Config.LOCAL_SSH_URL);
 			dataSource.setPortNumber(this.localPort);
-			dataSource.setUser(dbuserName);
+			dataSource.setUser(Config.MYSQL_USER);
 			dataSource.setAllowMultiQueries(true);
 
-			dataSource.setPassword(dbpassword);
+			dataSource.setPassword(Config.MYSQL_PASSWORD);
 			dataSource.setDatabaseName(this.databaseName);
 
 			connection = dataSource.getConnection();

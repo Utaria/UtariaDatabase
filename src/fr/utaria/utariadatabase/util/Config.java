@@ -11,6 +11,9 @@ public class Config {
 	public static final String SQL_DRIVER    = "com.mysql.jdbc.Driver";
 	public static final String LOCAL_SSH_URL = "localhost";
 
+	public static final String MYSQL_USER     = "root";
+	public static final String MYSQL_PASSWORD = "root";
+
 	public static final int BASE_LOCAL_PORT   = 8740;
 	public static final int MYSQL_REMOTE_PORT = 3306;
 

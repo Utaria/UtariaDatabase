@@ -1,8 +1,6 @@
 package fr.utaria.utariadatabase;
 
 import com.google.common.collect.ImmutableMap;
-import fr.utaria.utariadatabase.database.DatabaseManager;
-import fr.utaria.utariadatabase.database.Test;
 import fr.utaria.utariadatabase.util.APIReader;
 import fr.utaria.utariadatabase.util.Config;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -19,9 +17,6 @@ public class UtariaDatabaseBukkit extends JavaPlugin {
 		instance = this;
 
 		this.initConfig();
-
-		DatabaseManager.registerDatabase("global");
-		Test.test();
 	}
 	public void onDisable() {
 

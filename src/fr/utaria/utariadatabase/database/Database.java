@@ -1,6 +1,9 @@
 package fr.utaria.utariadatabase.database;
 
-import fr.utaria.utariadatabase.query.QuerySelect;
+import fr.utaria.utariadatabase.query.DeleteQuery;
+import fr.utaria.utariadatabase.query.IQuery;
+import fr.utaria.utariadatabase.query.SavingQuery;
+import fr.utaria.utariadatabase.query.SelectQuery;
 import fr.utaria.utariadatabase.result.DatabaseSet;
 import fr.utaria.utariadatabase.util.Config;
 
@@ -27,15 +30,26 @@ public class Database {
 		}
 	}
 
+
 	String getName() {
 		return this.name;
 	}
 
-	public QuerySelect select(String ...fields) {
-		return new QuerySelect(this, fields);
+
+	public SelectQuery select(String ...fields) {
+		return new SelectQuery(this, fields);
 	}
 
-	public List<DatabaseSet> execQueryStatement(QuerySelect query) throws SQLException {
+	public SavingQuery update(String table) {
+		return new SavingQuery(this, table);
+	}
+
+	public DeleteQuery delete(String ...conditions) {
+		return new DeleteQuery(this, conditions);
+	}
+
+
+	public List<DatabaseSet> execQueryStatement(SelectQuery query) throws SQLException {
 		Connection conn = this.connection.getSQLConnection();
 		if (conn == null) return null;
 
@@ -50,8 +64,19 @@ public class Database {
 		return DatabaseSet.resultSetToDatabaseSet(st.executeQuery());
 	}
 
-	public List<DatabaseSet> request(String req, List<Object> attr) {
-		return null;
+	public int execUpdateStatement(IQuery query) throws SQLException {
+		Connection conn = this.connection.getSQLConnection();
+		if (conn == null) return -1;
+
+		System.out.println(query.getRequest());
+
+		Object[] attributes = query.getAttributes();
+		PreparedStatement st = conn.prepareStatement(query.getRequest());
+
+		for (int i = 1; i <= attributes.length; i++)
+			st.setObject(i, attributes[i - 1]);
+
+		return st.executeUpdate();
 	}
 
 }
