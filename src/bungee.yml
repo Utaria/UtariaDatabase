@@ -1,0 +1,4 @@
+name: UtariaDatabase
+main: fr.utaria.utariadatabase.UtariaDatabaseBungee
+version: 1.0
+author: Utarwyn
