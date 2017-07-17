@@ -1,6 +1,7 @@
 package fr.utaria.utariadatabase.query;
 
 import fr.utaria.utariadatabase.database.Database;
+import fr.utaria.utariadatabase.result.UpdateResult;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.SQLException;
@@ -35,14 +36,14 @@ public class DeleteQuery implements IQuery {
 	}
 
 
-	public int execute() {
+	public UpdateResult execute() {
 		try {
 			return this.db.execUpdateStatement(this);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return -1;
+		return null;
 	}
 
 
@@ -56,7 +57,7 @@ public class DeleteQuery implements IQuery {
 
 		// On créé la requête
 		request.append("DELETE FROM ").append(this.table);
-		request.append(" WHERE ").append(StringUtils.join(this.conditions, "AND "));
+		request.append(" WHERE ").append(StringUtils.join(this.conditions, " AND "));
 
 		return request.toString();
 	}

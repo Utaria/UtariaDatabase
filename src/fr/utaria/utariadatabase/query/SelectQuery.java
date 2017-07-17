@@ -20,6 +20,7 @@ public class SelectQuery implements IQuery {
 	private Object[] attributes;
 
 	private List<String[]> joins;
+	private List<String[]> leftJoins;
 
 
 	public SelectQuery(Database db, String... fields) {
@@ -31,6 +32,7 @@ public class SelectQuery implements IQuery {
 		this.limits     = new int[0];
 
 		this.joins      = new ArrayList<>();
+		this.leftJoins  = new ArrayList<>();
 
 		if (this.fields.length == 0)
 			this.fields = new String[]{ "*" };
@@ -48,12 +50,20 @@ public class SelectQuery implements IQuery {
 		this.joins.add(new String[]{ table, field1, field2 });
 		return this;
 	}
+	public SelectQuery leftjoin(String table, String field1, String field2) {
+		this.leftJoins.add(new String[]{ table, field1, field2 });
+		return this;
+	}
 	public SelectQuery where(String ...conditions) {
 		this.conditions = conditions;
 		return this;
 	}
 	public SelectQuery order(String ...orders) {
 		this.orders = orders;
+		return this;
+	}
+	public SelectQuery limit(int length) {
+		this.limits = new int[]{ length, -1 };
 		return this;
 	}
 	public SelectQuery limit(int begin, int end) {
@@ -67,6 +77,9 @@ public class SelectQuery implements IQuery {
 
 
 	public DatabaseSet       find   () {
+		// Pour optimiser la requête, on limite le nombre de résultat à 1
+		this.limit(1);
+
 		List<DatabaseSet> sets = this.findAll();
 		return (sets == null || sets.size() == 0) ? null : sets.get(0);
 	}
@@ -93,12 +106,20 @@ public class SelectQuery implements IQuery {
 			for (String[] join : this.joins)
 				request.append(" JOIN ").append(join[0]).append(" ON ").append(join[1]).append(" = ").append(join[2]);
 
+		if (this.leftJoins.size() > 0)
+			for (String[] join : this.leftJoins)
+				request.append(" LEFT JOIN ").append(join[0]).append(" ON ").append(join[1]).append(" = ").append(join[2]);
+
 		if (this.conditions.length > 0)
-			request.append(" WHERE ").append(StringUtils.join(this.conditions, "AND "));
+			request.append(" WHERE ").append(StringUtils.join(this.conditions, " AND "));
 		if (this.orders.length     > 0)
 			request.append(" ORDER BY ").append(StringUtils.join(this.orders, ","));
 		if (this.limits.length     > 0)
-			request.append(" LIMIT ").append(this.limits[0]).append(",").append(this.limits[1]);
+			if (this.limits[1] > 0) // limites
+				request.append(" LIMIT ").append(this.limits[0]).append(",").append(this.limits[1]);
+			else                    // nombre à récupérer
+				request.append(" LIMIT ").append(this.limits[0]);
+
 
 		return request.toString();
 	}

@@ -1,6 +1,7 @@
 package fr.utaria.utariadatabase.query;
 
 import fr.utaria.utariadatabase.database.Database;
+import fr.utaria.utariadatabase.result.UpdateResult;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.SQLException;
@@ -53,14 +54,14 @@ public class SavingQuery implements IQuery {
 	}
 
 
-	public int execute() {
+	public UpdateResult execute() {
 		try {
 			return this.db.execUpdateStatement(this);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return -1;
+		return null;
 	}
 
 
@@ -88,7 +89,7 @@ public class SavingQuery implements IQuery {
 			if (this.fields.length > 0)
 				request.deleteCharAt(request.length() - 1);
 
-			request.append(" WHERE ").append(StringUtils.join(this.conditions, "AND "));
+			request.append(" WHERE ").append(StringUtils.join(this.conditions, " AND "));
 		} else {
 			request.append("INSERT INTO `").append(this.table).append('`');
 

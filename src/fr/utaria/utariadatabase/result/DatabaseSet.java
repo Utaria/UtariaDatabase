@@ -38,6 +38,28 @@ public class DatabaseSet {
 			return null;
 	}
 
+	public Boolean getBoolean(String key) {
+		if (set.containsKey(key) && set.get(key) instanceof Boolean)
+			return (Boolean) set.get(key);
+		else
+			return null;
+	}
+
+
+	public Short getShort(String key) {
+		if (set.containsKey(key) && set.get(key) instanceof Short)
+			return (Short) set.get(key);
+		else
+			return null;
+	}
+
+	public Byte getByte(String key) {
+		if (set.containsKey(key) && set.get(key) instanceof Byte)
+			return (Byte) set.get(key);
+		else
+			return null;
+	}
+
 	public BigDecimal getBigDecimal(String key) {
 		if (set.containsKey(key) && set.get(key) instanceof BigDecimal)
 			return (BigDecimal) set.get(key);

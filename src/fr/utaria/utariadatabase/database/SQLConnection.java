@@ -45,6 +45,7 @@ class SQLConnection {
 
 	private boolean createSSHTunnel() throws SQLException {
 		String sshUser = "db" + this.databaseName;
+		if (!Config.ENABLE_SSH) return true;
 
 		try {
 			// Création de l'instance et démarrage de la session SSH
@@ -92,11 +93,14 @@ class SQLConnection {
 	}
 
 	private boolean connectToDataBase() throws SQLException {
+		String sqlUrl  = (Config.ENABLE_SSH) ? Config.LOCAL_SSH_URL : Config.remoteSSHUrl;
+		int    sqlPort = (Config.ENABLE_SSH) ? this.localPort       : Config.MYSQL_REMOTE_PORT;
+
 		try {
 			// Connexion à la base de données
 			MysqlDataSource dataSource = new MysqlDataSource();
-			dataSource.setServerName(Config.LOCAL_SSH_URL);
-			dataSource.setPortNumber(this.localPort);
+			dataSource.setServerName(sqlUrl);
+			dataSource.setPortNumber(sqlPort);
 			dataSource.setUser(Config.MYSQL_USER);
 			dataSource.setAllowMultiQueries(true);
 

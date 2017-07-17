@@ -5,18 +5,23 @@ import fr.utaria.utariadatabase.query.IQuery;
 import fr.utaria.utariadatabase.query.SavingQuery;
 import fr.utaria.utariadatabase.query.SelectQuery;
 import fr.utaria.utariadatabase.result.DatabaseSet;
+import fr.utaria.utariadatabase.result.UpdateResult;
 import fr.utaria.utariadatabase.util.Config;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class Database {
 
+	public static final String NOW = "NOW()";
+
+
 	private String        name;
 	private SQLConnection connection;
+
+	private int lastInsertId;
 
 
 	Database(String name) {
@@ -53,7 +58,8 @@ public class Database {
 		Connection conn = this.connection.getSQLConnection();
 		if (conn == null) return null;
 
-		System.out.println(query.getRequest());
+		if (Config.ENABLE_DEBUG)
+			System.out.println(query.getRequest());
 
 		Object[] attributes = query.getAttributes();
 		PreparedStatement st = conn.prepareStatement(query.getRequest());
@@ -64,19 +70,31 @@ public class Database {
 		return DatabaseSet.resultSetToDatabaseSet(st.executeQuery());
 	}
 
-	public int execUpdateStatement(IQuery query) throws SQLException {
+	public UpdateResult execUpdateStatement(IQuery query) throws SQLException {
 		Connection conn = this.connection.getSQLConnection();
-		if (conn == null) return -1;
+		if (conn == null) return null;
 
-		System.out.println(query.getRequest());
+		if (Config.ENABLE_DEBUG)
+			System.out.println(query.getRequest());
 
 		Object[] attributes = query.getAttributes();
-		PreparedStatement st = conn.prepareStatement(query.getRequest());
+		PreparedStatement st = conn.prepareStatement(query.getRequest(), Statement.RETURN_GENERATED_KEYS);
 
 		for (int i = 1; i <= attributes.length; i++)
 			st.setObject(i, attributes[i - 1]);
 
-		return st.executeUpdate();
+		// Execution de la requête
+		int rows =  st.executeUpdate();
+
+		// Gestion des identifiants générés
+		List<Integer> keys = new ArrayList<>();
+
+		ResultSet generatedKeys = st.getGeneratedKeys();
+		if (generatedKeys != null)
+			while (generatedKeys.next())
+				lastInsertId = generatedKeys.getInt(1);
+
+		return new UpdateResult(rows, keys);
 	}
 
 }

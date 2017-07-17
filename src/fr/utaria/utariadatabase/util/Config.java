@@ -17,6 +17,9 @@ public class Config {
 	public static final int BASE_LOCAL_PORT   = 8740;
 	public static final int MYSQL_REMOTE_PORT = 3306;
 
+	public static final boolean ENABLE_SSH   = false;
+	public static final boolean ENABLE_DEBUG = true;
+
 
 	public static String environment;
 	public static String remoteSSHUrl;

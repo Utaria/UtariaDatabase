@@ -20,15 +20,15 @@ public class Test extends DatabaseAccessor {
 		System.out.println("Test #01 : " + ((set != null) ? set : "Aucun résultat"));
 
 		// Test d'une insertion dans la BDD
-		int rowsCreated = this.getDB().update("config").values(15, "test", "Mon super test !").execute();
+		int rowsCreated = this.getDB().update("config").values(15, "test", "Mon super test !").execute().getRowsAffected();
 		System.out.println("Lignes crées = " + rowsCreated);
 
 		// Test d'une mise à jour de la BDD
-		int rowsUpdated = this.getDB().update("config").fields("value").values(20).where("id = ?").attributes(1).execute();
+		int rowsUpdated = this.getDB().update("config").fields("value").values(20).where("id = ?").attributes(1).execute().getRowsAffected();
 		System.out.println("Lignes mises à jour = " + rowsUpdated);
 
 		// Test d'une suppression dans la BDD
-		int rowsDeleted = this.getDB().delete("id = ?").from("config").attributes(15).execute();
+		int rowsDeleted = this.getDB().delete("id = ?").from("config").attributes(15).execute().getRowsAffected();
 		System.out.println("Lignes supprimées = " + rowsDeleted);
 	}
 
