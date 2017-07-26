@@ -1,12 +1,13 @@
 package fr.utaria.utariadatabase.database;
 
-public class DatabaseAccessor {
+public abstract class DatabaseAccessor {
 
 	private String databaseName;
 
 
 	public DatabaseAccessor(String databaseName) {
 		this.databaseName = databaseName;
+		if (databaseName == null) return;
 
 		DatabaseManager.registerDatabaseAccessor(this);
 	}
@@ -17,6 +18,7 @@ public class DatabaseAccessor {
 	}
 
 	public Database getDB() {
+		if (databaseName == null) return null;
 		return DatabaseManager.getDB(databaseName);
 	}
 
