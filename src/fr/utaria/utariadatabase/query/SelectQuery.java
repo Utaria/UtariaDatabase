@@ -16,6 +16,7 @@ public class SelectQuery implements IQuery {
 	private String[] froms;
 	private String[] conditions;
 	private String[] orders;
+	private String[] groupsBy;
 	private int   [] limits;
 	private Object[] attributes;
 
@@ -28,6 +29,7 @@ public class SelectQuery implements IQuery {
 		this.fields     = fields;
 		this.conditions = new String[0];
 		this.orders     = new String[0];
+		this.groupsBy   = new String[0];
 		this.attributes = new String[0];
 		this.limits     = new int[0];
 
@@ -56,6 +58,10 @@ public class SelectQuery implements IQuery {
 	}
 	public SelectQuery where(String ...conditions) {
 		this.conditions = conditions;
+		return this;
+	}
+	public SelectQuery groupBy(String... groupsBy) {
+		this.groupsBy = groupsBy;
 		return this;
 	}
 	public SelectQuery order(String ...orders) {
@@ -112,6 +118,8 @@ public class SelectQuery implements IQuery {
 
 		if (this.conditions.length > 0)
 			request.append(" WHERE ").append(StringUtils.join(this.conditions, " AND "));
+		if (this.groupsBy.length   > 0)
+			request.append(" GROUP BY ").append(StringUtils.join(this.groupsBy, ","));
 		if (this.orders.length     > 0)
 			request.append(" ORDER BY ").append(StringUtils.join(this.orders, ","));
 		if (this.limits.length     > 0)
