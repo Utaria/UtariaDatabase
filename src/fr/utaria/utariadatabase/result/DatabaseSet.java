@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class DatabaseSet {
 
-	private Map<String, Object> set = new HashMap<String, Object>();
+	private Map<String, Object> set = new HashMap<>();
 
 
 	private DatabaseSet() {}
