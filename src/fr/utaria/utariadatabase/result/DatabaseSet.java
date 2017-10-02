@@ -1,6 +1,5 @@
 package fr.utaria.utariadatabase.result;
 
-
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.ResultSet;
