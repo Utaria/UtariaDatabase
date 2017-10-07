@@ -11,7 +11,7 @@ public class ConfigTableAccessor extends DatabaseAccessor implements Runnable {
 
 	private static ConfigTableAccessor instance;
 
-	private ConcurrentHashMap<String, Object> datas;
+	private ConcurrentHashMap<String, String> datas;
 
 
 	private ConfigTableAccessor(UtariaDatabasePlugin plugin) {
@@ -28,7 +28,7 @@ public class ConfigTableAccessor extends DatabaseAccessor implements Runnable {
 		List<DatabaseSet> sets = this.getDB().select("name", "value").from("config").findAll();
 
 		for (DatabaseSet set : sets)
-			this.datas.put(set.getString("name"), set.getObject("value"));
+			this.datas.put(set.getString("name"), set.getString("value"));
 	}
 
 
@@ -49,12 +49,11 @@ public class ConfigTableAccessor extends DatabaseAccessor implements Runnable {
 	}
 
 	public static Boolean getBoolean(String name) {
-		return Boolean.getBoolean(getString(name));
+		return Boolean.valueOf(getString(name));
 	}
 
 	public static String getString(String name) {
-		Object obj = instance.datas.get(name);
-		return (obj != null && (obj instanceof String)) ? (String) obj : null;
+		return instance.datas.get(name);
 	}
 
 }
