@@ -18,7 +18,7 @@ public class DatabaseManager {
 	public static void registerDatabase(String databaseName) {
 		for (Database db : DatabaseManager.getInstance().databases)
 			if (db.getName().equals(databaseName))
-				throw new IllegalArgumentException("La base de données " + databaseName + " est déjà enregistrée !");
+				return;
 
 		DatabaseManager.getInstance().databases.add(new Database(databaseName));
 	}

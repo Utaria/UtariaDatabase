@@ -1,5 +1,6 @@
 package fr.utaria.utariadatabase;
 
+import fr.utaria.utariadatabase.database.DatabaseManager;
 import fr.utaria.utariadatabase.util.APIReader;
 import fr.utaria.utariadatabase.util.Config;
 import fr.utaria.utariadatabase.util.ConfigTableAccessor;
@@ -43,6 +44,7 @@ public class UtariaDatabaseBukkit extends JavaPlugin implements UtariaDatabasePl
 
 		this.saveConfig();
 
+		DatabaseManager.registerDatabase("global");
 		ConfigTableAccessor.init(this);
 	}
 
