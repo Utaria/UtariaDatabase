@@ -4,7 +4,6 @@ import fr.utaria.utariadatabase.UtariaDatabasePlugin;
 import fr.utaria.utariadatabase.database.DatabaseAccessor;
 import fr.utaria.utariadatabase.result.DatabaseSet;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -40,28 +39,22 @@ public class ConfigTableAccessor extends DatabaseAccessor implements Runnable {
 	}
 
 	public static Integer getInteger(String name) {
-		Object obj = instance.datas.get(name);
-		return (obj != null && (obj instanceof Integer)) ? (Integer) obj : null;
+		String obj = getString(name);
+		return (obj != null) ? Integer.valueOf(obj) : null;
 	}
 
 	public static Double getDouble(String name) {
-		Object obj = instance.datas.get(name);
-		return (obj != null && (obj instanceof Double)) ? (Double) obj : null;
+		String obj = getString(name);
+		return (obj != null) ? Double.valueOf(obj) : null;
 	}
 
 	public static Boolean getBoolean(String name) {
-		Object obj = instance.datas.get(name);
-		return (obj != null && (obj instanceof Boolean)) ? (Boolean) obj : null;
+		return Boolean.getBoolean(getString(name));
 	}
 
 	public static String getString(String name) {
 		Object obj = instance.datas.get(name);
 		return (obj != null && (obj instanceof String)) ? (String) obj : null;
-	}
-
-	public static Timestamp getTimestamp(String name) {
-		Object obj = instance.datas.get(name);
-		return (obj != null && (obj instanceof Timestamp)) ? (Timestamp) obj : null;
 	}
 
 }
