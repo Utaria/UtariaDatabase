@@ -2,6 +2,8 @@ package fr.utaria.utariadatabase;
 
 import fr.utaria.utariadatabase.util.APIReader;
 import fr.utaria.utariadatabase.util.Config;
+import fr.utaria.utariadatabase.util.ConfigTableAccessor;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,7 +19,6 @@ public class UtariaDatabaseBukkit extends JavaPlugin implements UtariaDatabasePl
 	public void onDisable() {
 
 	}
-
 
 	@Override
 	public void init() {
@@ -41,6 +42,8 @@ public class UtariaDatabaseBukkit extends JavaPlugin implements UtariaDatabasePl
 		}
 
 		this.saveConfig();
+
+		ConfigTableAccessor.init(this);
 	}
 
 	@Override
@@ -48,5 +51,9 @@ public class UtariaDatabaseBukkit extends JavaPlugin implements UtariaDatabasePl
 		this.getLogger().log(logLevel, message);
 	}
 
+	@Override
+	public void runTimerTask(Runnable runnable, int delay, int timer) {
+		Bukkit.getScheduler().runTaskTimerAsynchronously(this, runnable, delay, timer);
+	}
 
 }

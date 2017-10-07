@@ -8,4 +8,6 @@ public interface UtariaDatabasePlugin {
 
 	void init();
 
+	void runTimerTask(Runnable runnable, int delay, int timer);
+
 }
