@@ -75,7 +75,7 @@ public class SavingQuery implements IQuery {
 		if (this.fields.length == 0 && this.conditions.length > 0)
 			throw new IllegalArgumentException("Vous devez préciser les champs à mettre à jour !");
 		if (this.fields.length != this.values.length)
-			if (this.conditions.length > 0 || (this.conditions.length == 0 && this.fields.length > 0))
+			if (this.conditions.length > 0 || this.fields.length > 0)
 				throw new IllegalArgumentException("Le nombre de champs doit être égal au nombre de valeurs !");
 
 		// On commence à créer la requête
