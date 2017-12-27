@@ -6,7 +6,7 @@
 
     <groupId>fr.utaria</groupId>
     <artifactId>UtariaDatabase</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <name>UtariaDatabase</name>
     <description>Plugin de gestion de base de données d'UTARIA</description>
