@@ -14,45 +14,49 @@ public class SavingQuery implements IQuery {
 	private Database db;
 
 	private String[] fields;
-	private String   table;
+
+	private String table;
+
 	private String[] conditions;
+
 	private Object[] values;
 
 	private List<Object> attributes;
 
-
 	public SavingQuery(Database database, String table) {
-		this.db    = database;
+		this.db = database;
 		this.table = table;
 
-		this.fields     = new String[0];
+		this.fields = new String[0];
 		this.conditions = new String[0];
 		this.attributes = new ArrayList<>();
 	}
 
+	public Object[] getAttributes() {
+		return this.attributes.toArray();
+	}
 
-	public Object[] getAttributes() { return this.attributes.toArray(); }
-
-
-	public SavingQuery fields    (String ...fields) {
+	public SavingQuery fields(String... fields) {
 		this.fields = fields;
 		return this;
 	}
-	public SavingQuery values    (Object ...values) {
+
+	public SavingQuery values(Object... values) {
 		this.values = values;
 		this.attributes(values);
 
 		return this;
 	}
-	public SavingQuery where     (String ...conditions) {
+
+	public SavingQuery where(String... conditions) {
 		this.conditions = conditions;
 		return this;
 	}
-	public SavingQuery attributes(Object ...attributes) {
+
+	public SavingQuery attributes(Object... attributes) {
 		Collections.addAll(this.attributes, attributes);
 		return this;
 	}
-
 
 	public UpdateResult execute() {
 		try {
@@ -63,7 +67,6 @@ public class SavingQuery implements IQuery {
 
 		return null;
 	}
-
 
 	@Override
 	public String getRequest() {
@@ -104,7 +107,6 @@ public class SavingQuery implements IQuery {
 		return request.toString();
 	}
 
-
 	private String generateAttrValues(Object[] values) {
 		String[] tab = new String[values.length];
 
@@ -112,4 +114,5 @@ public class SavingQuery implements IQuery {
 
 		return StringUtils.join(tab, ",");
 	}
+
 }

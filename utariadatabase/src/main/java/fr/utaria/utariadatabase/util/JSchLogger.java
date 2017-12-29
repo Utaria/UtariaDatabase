@@ -10,7 +10,6 @@ public class JSchLogger implements Logger {
 
 	private static Hashtable<Integer, Level> levels = new Hashtable<>();
 
-
 	static {
 		levels.put(DEBUG, Level.CONFIG);
 		levels.put(INFO, Level.INFO);
@@ -19,8 +18,8 @@ public class JSchLogger implements Logger {
 		levels.put(FATAL, Level.SEVERE);
 	}
 
-	public JSchLogger() {}
-
+	public JSchLogger() {
+	}
 
 	public boolean isEnabled(int level) {
 		return false;
@@ -29,6 +28,7 @@ public class JSchLogger implements Logger {
 	public void log(int level, String message) {
 		this.log(level, message, false);
 	}
+
 	public void log(int level, String message, boolean force) {
 		if (force || Config.environment.equals("development"))
 			InstanceManager.getInstance().log(levels.get(level), message);

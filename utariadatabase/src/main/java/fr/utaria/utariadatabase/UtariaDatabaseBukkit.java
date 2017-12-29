@@ -17,6 +17,7 @@ public class UtariaDatabaseBukkit extends JavaPlugin implements UtariaDatabasePl
 		InstanceManager.useInstance(this);
 		this.init();
 	}
+
 	public void onDisable() {
 
 	}

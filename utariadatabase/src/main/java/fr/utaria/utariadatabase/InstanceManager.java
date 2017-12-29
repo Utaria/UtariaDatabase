@@ -4,9 +4,8 @@ public class InstanceManager {
 
 	private static UtariaDatabasePlugin instance;
 
-
-	private InstanceManager() {}
-
+	private InstanceManager() {
+	}
 
 	public static void useInstance(UtariaDatabasePlugin instance) {
 		InstanceManager.instance = instance;

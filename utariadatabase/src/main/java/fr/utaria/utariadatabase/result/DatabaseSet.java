@@ -14,14 +14,12 @@ public class DatabaseSet {
 
 	private Map<String, Object> set = new HashMap<>();
 
-
-	private DatabaseSet() {}
-
+	private DatabaseSet() {
+	}
 
 	private void setObject(String key, Object value) {
 		set.put(key, value);
 	}
-
 
 	public String getString(String key) {
 		if (set.containsKey(key) && set.get(key) instanceof String)
@@ -47,7 +45,6 @@ public class DatabaseSet {
 	public Object getObject(String key) {
 		return set.get(key);
 	}
-
 
 	public Short getShort(String key) {
 		if (set.containsKey(key) && set.get(key) instanceof Short)
@@ -110,7 +107,7 @@ public class DatabaseSet {
 		StringBuilder s = new StringBuilder("{DatabaseSet #" + this.hashCode() + " (");
 
 		int i = 0;
-		for(String key : this.set.keySet()) {
+		for (String key : this.set.keySet()) {
 			Object obj = this.set.get(key);
 
 			s.append(key).append("=").append(obj);
@@ -123,7 +120,6 @@ public class DatabaseSet {
 
 		return s.toString();
 	}
-
 
 	public static List<DatabaseSet> resultSetToDatabaseSet(ResultSet resultSet) {
 		List<DatabaseSet> result = new ArrayList<>();

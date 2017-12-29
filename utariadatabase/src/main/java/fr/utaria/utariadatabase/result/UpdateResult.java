@@ -4,14 +4,14 @@ import java.util.List;
 
 public class UpdateResult {
 
-	private int           rowsAffected;
+	private int rowsAffected;
+
 	private List<Integer> generatedKeys;
 
 	public UpdateResult(int rowsAffected, List<Integer> generatedKeys) {
-		this.rowsAffected  = rowsAffected;
+		this.rowsAffected = rowsAffected;
 		this.generatedKeys = generatedKeys;
 	}
-
 
 	public int getRowsAffected() {
 		return this.rowsAffected;
@@ -24,7 +24,6 @@ public class UpdateResult {
 	public List<Integer> getGeneratedKeys() {
 		return this.generatedKeys;
 	}
-
 
 	@Override
 	public String toString() {

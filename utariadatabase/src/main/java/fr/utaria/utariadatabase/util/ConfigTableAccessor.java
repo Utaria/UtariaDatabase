@@ -13,7 +13,6 @@ public class ConfigTableAccessor extends DatabaseAccessor implements Runnable {
 
 	private ConcurrentHashMap<String, String> datas;
 
-
 	private ConfigTableAccessor(UtariaDatabasePlugin plugin) {
 		super("global");
 
@@ -30,8 +29,6 @@ public class ConfigTableAccessor extends DatabaseAccessor implements Runnable {
 		for (DatabaseSet set : sets)
 			this.datas.put(set.getString("name"), set.getString("value"));
 	}
-
-
 
 	public static void init(UtariaDatabasePlugin databasePlugin) {
 		if (instance != null) return;

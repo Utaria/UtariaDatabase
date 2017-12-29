@@ -9,11 +9,9 @@ public class DatabaseManager {
 
 	private List<Database> databases;
 
-
 	private DatabaseManager() {
 		databases = new ArrayList<>();
 	}
-
 
 	public static void registerDatabase(String databaseName) {
 		for (Database db : DatabaseManager.getInstance().databases)
@@ -31,12 +29,10 @@ public class DatabaseManager {
 		throw new IllegalArgumentException("La base de données '" + databaseName + "' n'est pas enregistrée !");
 	}
 
-
 	static void registerDatabaseAccessor(DatabaseAccessor accessor) {
 		if (DatabaseManager.getDB(accessor.getDBName()) == null)
 			throw new IllegalArgumentException("La base de données '" + accessor.getDBName() + "' n'est pas enregistrée !");
 	}
-
 
 	private static DatabaseManager getInstance() {
 		if (instance == null) instance = new DatabaseManager();

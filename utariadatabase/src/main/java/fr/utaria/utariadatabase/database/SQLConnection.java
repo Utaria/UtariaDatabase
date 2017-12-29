@@ -15,33 +15,33 @@ import java.sql.SQLException;
 class SQLConnection {
 
 	private static JSchLogger logger;
-	private static int        localPortStk;
+
+	private static int localPortStk;
 
 	private Connection connection;
-	private Session    sshSession;
 
-	private int    localPort;
+	private Session sshSession;
+
+	private int localPort;
+
 	private String remoteHost;
+
 	private String databaseName;
 
-
 	private SQLConnection(String remoteHost, String databaseName) {
-		this.remoteHost   = remoteHost;
+		this.remoteHost = remoteHost;
 		this.databaseName = databaseName;
-		this.localPort    = SQLConnection.localPortStk++;
+		this.localPort = SQLConnection.localPortStk++;
 	}
 
 	static {
-		logger       = new JSchLogger();
+		logger = new JSchLogger();
 		localPortStk = Config.BASE_LOCAL_PORT;
 	}
-
-
 
 	Connection getSQLConnection() {
 		return this.connection;
 	}
-
 
 	private boolean createSSHTunnel() throws SQLException {
 		String sshUser = "db" + this.databaseName;
@@ -55,9 +55,9 @@ class SQLConnection {
 			this.sshSession = jsch.getSession(sshUser, this.remoteHost, 22);
 
 			// Récupération des clés de sécurité dans le plugin
-			String      keyName          = sshUser.replace("db", "");
+			String keyName = sshUser.replace("db", "");
 			InputStream privateKeyStream = SQLConnection.class.getResourceAsStream("/keys/" + Config.environment + "/" + keyName + ".key");
-			InputStream publicKeyStream  = SQLConnection.class.getResourceAsStream("/keys/" + Config.environment + "/" + keyName + ".key.pub");
+			InputStream publicKeyStream = SQLConnection.class.getResourceAsStream("/keys/" + Config.environment + "/" + keyName + ".key.pub");
 
 			if (privateKeyStream == null || publicKeyStream == null)
 				throw new NullPointerException("Clé privée ou publique inexistante pour l'utilisateur " + sshUser + " !");
@@ -93,8 +93,8 @@ class SQLConnection {
 	}
 
 	private boolean connectToDataBase() throws SQLException {
-		String sqlUrl  = (Config.ENABLE_SSH) ? Config.LOCAL_SSH_URL : Config.remoteSSHUrl;
-		int    sqlPort = (Config.ENABLE_SSH) ? this.localPort       : Config.MYSQL_REMOTE_PORT;
+		String sqlUrl = (Config.ENABLE_SSH) ? Config.LOCAL_SSH_URL : Config.remoteSSHUrl;
+		int sqlPort = (Config.ENABLE_SSH) ? this.localPort : Config.MYSQL_REMOTE_PORT;
 
 		try {
 			// Connexion à la base de données
@@ -117,7 +117,6 @@ class SQLConnection {
 
 		return false;
 	}
-
 
 	public void closeConnections() {
 		this.closeDataBaseConnection();
@@ -143,7 +142,7 @@ class SQLConnection {
 		}
 	}
 
-	public static SQLConnection newConnection(String host, String databaseName) throws SQLException  {
+	public static SQLConnection newConnection(String host, String databaseName) throws SQLException {
 		SQLConnection conn = new SQLConnection(host, databaseName);
 		return (conn.createSSHTunnel() && conn.connectToDataBase()) ? conn : null;
 	}

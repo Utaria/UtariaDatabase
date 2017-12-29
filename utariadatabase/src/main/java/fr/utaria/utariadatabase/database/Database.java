@@ -15,14 +15,11 @@ import java.util.List;
 
 public class Database {
 
-	public static final String NOW = "NOW()";
+	private String name;
 
-
-	private String        name;
 	private SQLConnection connection;
 
 	private int lastInsertId;
-
 
 	Database(String name) {
 		this.name = name;
@@ -35,13 +32,11 @@ public class Database {
 		}
 	}
 
-
 	String getName() {
 		return this.name;
 	}
 
-
-	public SelectQuery select(String ...fields) {
+	public SelectQuery select(String... fields) {
 		return new SelectQuery(this, fields);
 	}
 
@@ -49,10 +44,9 @@ public class Database {
 		return new SavingQuery(this, table);
 	}
 
-	public DeleteQuery delete(String ...conditions) {
+	public DeleteQuery delete(String... conditions) {
 		return new DeleteQuery(this, conditions);
 	}
-
 
 	public List<DatabaseSet> execQueryStatement(SelectQuery query) throws SQLException {
 		Connection conn = this.connection.getSQLConnection();
@@ -84,7 +78,7 @@ public class Database {
 			st.setObject(i, attributes[i - 1]);
 
 		// Execution de la requête
-		int rows =  st.executeUpdate();
+		int rows = st.executeUpdate();
 
 		// Gestion des identifiants générés
 		List<Integer> keys = new ArrayList<>();

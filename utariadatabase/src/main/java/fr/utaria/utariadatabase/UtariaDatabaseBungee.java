@@ -18,13 +18,13 @@ import java.util.logging.Level;
 
 public class UtariaDatabaseBungee extends Plugin implements UtariaDatabasePlugin {
 
-
 	public void onEnable() {
 		InstanceManager.useInstance(this);
 		this.init();
 	}
-	public void onDisable() {}
 
+	public void onDisable() {
+	}
 
 	@Override
 	public void log(Level logLevel, String message) {
@@ -70,7 +70,7 @@ public class UtariaDatabaseBungee extends Plugin implements UtariaDatabasePlugin
 
 	@Override
 	public void runTimerTask(Runnable runnable, int delay, int timer) {
-		ProxyServer.getInstance().getScheduler().schedule(this, runnable, delay/20, timer/20, TimeUnit.SECONDS);
+		ProxyServer.getInstance().getScheduler().schedule(this, runnable, delay / 20, timer / 20, TimeUnit.SECONDS);
 	}
 
 }

@@ -14,10 +14,9 @@ public class APIReader {
 
 	private static final String BASE_URL = "https://utaria.fr/api/";
 
-
 	public static Object get(String method, String submethod, Map<String, String> params) throws Exception {
 		// Création de l'URL d'appel à l'API
-		String url     = BASE_URL + method + "/" + submethod;
+		String url = BASE_URL + method + "/" + submethod;
 		if (params.size() > 0)
 			url += "?" + APIReader.urlEncodeUTF8(params);
 
@@ -30,15 +29,15 @@ public class APIReader {
 
 		if (result.containsKey("resultat"))
 			return result.get("resultat");
-		else if (result.containsKey("error")) {
-			JSONObject error = (JSONObject) result.get("error");
+		else
+			if (result.containsKey("error")) {
+				JSONObject error = (JSONObject) result.get("error");
 
-			throw new IllegalAccessException("API Erreur #" + String.format("%03d", (long) error.get("code")) + " : " + error.get("message"));
-		}
+				throw new IllegalAccessException("API Erreur #" + String.format("%03d", (long) error.get("code")) + " : " + error.get("message"));
+			}
 
 		return null;
 	}
-
 
 	private static String readUrl(String urlString) throws Exception {
 		BufferedReader reader = null;
@@ -70,10 +69,10 @@ public class APIReader {
 		}
 	}
 
-	private static String urlEncodeUTF8(Map<?,?> map) {
+	private static String urlEncodeUTF8(Map<?, ?> map) {
 		StringBuilder sb = new StringBuilder();
 
-		for (Map.Entry<?,?> entry : map.entrySet()) {
+		for (Map.Entry<?, ?> entry : map.entrySet()) {
 			if (sb.length() > 0)
 				sb.append("&");
 
