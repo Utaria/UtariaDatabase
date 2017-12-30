@@ -21,15 +21,10 @@ public class Database {
 
 	private int lastInsertId;
 
-	Database(String name) {
+	Database(String name) throws SQLException {
 		this.name = name;
 
-		try {
-			this.connection = SQLConnection.newConnection(Config.remoteSSHUrl, name);
-		} catch (SQLException e) {
-			System.err.println("Connexion impossible à la base de données !");
-			e.printStackTrace();
-		}
+		this.connection = SQLConnection.newConnection(Config.remoteSSHUrl, name);
 	}
 
 	String getName() {

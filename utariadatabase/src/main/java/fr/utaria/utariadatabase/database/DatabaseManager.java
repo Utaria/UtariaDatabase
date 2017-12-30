@@ -1,5 +1,6 @@
 package fr.utaria.utariadatabase.database;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,11 @@ public class DatabaseManager {
 			if (db.getName().equals(databaseName))
 				return;
 
-		DatabaseManager.getInstance().databases.add(new Database(databaseName));
+		try {
+			DatabaseManager.getInstance().databases.add(new Database(databaseName));
+		} catch (SQLException e) {
+			throw new IllegalArgumentException("Une erreur a eu lieue lors de l'enregistrement de la base \"" + databaseName + "\" !", e);
+		}
 	}
 
 	public static Database getDB(String databaseName) {

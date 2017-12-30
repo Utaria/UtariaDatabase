@@ -1,26 +1,29 @@
 package fr.utaria.utariadatabase.util;
 
-import fr.utaria.utariadatabase.database.DatabaseAccessor;
+/**
+ * Classe pour accéder très facilement aux options du réseau.<br/>
+ * Utilisation avancée.<br/>
+ * <br/>
+ * Javadoc à compléter.
+ *
+ * @since 1.0.0
+ * @author Utarwyn
+ */
+public interface ConfigTableAccessor {
 
-public abstract class ConfigTableAccessor extends DatabaseAccessor {
-
-	public ConfigTableAccessor() {
-		super(null);
-	}
-
-	public static Integer getInteger(String name) {
+	static Integer getInteger(String name) {
 		return null;
 	}
 
-	public static Double getDouble(String name) {
+	static Double getDouble(String name) {
 		return null;
 	}
 
-	public static Boolean getBoolean(String name) {
+	static Boolean getBoolean(String name) {
 		return null;
 	}
 
-	public static String getString(String name) {
+	static String getString(String name) {
 		return null;
 	}
 
