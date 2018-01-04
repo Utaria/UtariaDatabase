@@ -18,6 +18,8 @@ class SQLConnection {
 
 	private String databaseName;
 
+	private boolean readOnly;
+
 	private SQLConnection(String host, String databaseName) {
 		this.host = host;
 		this.databaseName = databaseName;
@@ -29,6 +31,10 @@ class SQLConnection {
 
 	public boolean isFlat() {
 		return this.host.endsWith(".db");
+	}
+
+	public boolean isReadOnly() {
+		return this.readOnly;
 	}
 
 	private boolean connectToRemoteDataBase() {
@@ -58,12 +64,12 @@ class SQLConnection {
 		try {
 			// Connexion à la base de données locale (SQLite)
 			SQLiteDataSource dataSource = new SQLiteDataSource();
-			if (this.host.startsWith("internal:"))
+			if (this.host.startsWith("internal:")) {
 				dataSource.setUrl("jdbc:sqlite::resource:" + getClass().getResource("/db/" + this.host.replace("internal:", "")));
-			else
+				dataSource.setReadOnly(true);
+				this.readOnly = true;
+			} else
 				dataSource.setUrl("jdbc:sqlite:" + this.host);
-
-			dataSource.setReadOnly(true);
 
 			this.connection = dataSource.getConnection();
 

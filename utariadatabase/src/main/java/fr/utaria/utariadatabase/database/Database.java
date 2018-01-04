@@ -68,8 +68,8 @@ public class Database {
 		Connection conn = this.connection.getSQLConnection();
 		if (conn == null) return null;
 
-		// En mode fichier (SQLite), la base de données est "read-only", inaccessible en écriture.
-		if (this.connection.isFlat())
+		// Si la connexion est en lecture seule, on interdit l'écriture dans la base.
+		if (this.connection.isReadOnly())
 			return new UpdateResult(0, new ArrayList<>());
 
 		Object[] attributes = query.getAttributes();
