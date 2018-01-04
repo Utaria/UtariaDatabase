@@ -9,22 +9,26 @@ package fr.utaria.utariadatabase.util;
  * @since 1.0.0
  * @author Utarwyn
  */
-public interface ConfigTableAccessor {
+public abstract class ConfigTableAccessor {
 
-	static Integer getInteger(String name) {
-		return null;
+	private ConfigTableAccessor() {
+
 	}
 
-	static Double getDouble(String name) {
-		return null;
+	public static Integer getInteger(String name) {
+		return 0;
 	}
 
-	static Boolean getBoolean(String name) {
-		return null;
+	public static Double getDouble(String name) {
+		return 0D;
 	}
 
-	static String getString(String name) {
-		return null;
+	public static Boolean getBoolean(String name) {
+		return false;
+	}
+
+	public static String getString(String name) {
+		return "";
 	}
 
 }

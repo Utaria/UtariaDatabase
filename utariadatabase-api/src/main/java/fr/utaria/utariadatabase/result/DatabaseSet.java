@@ -19,28 +19,38 @@ import java.sql.Timestamp;
  * @since 1.0.0
  * @author Utarwyn
  */
-public interface DatabaseSet {
+public abstract class DatabaseSet {
+
+	private DatabaseSet() {
+
+	}
 
 	/**
 	 * Récupère une valeur de type "chaîne de caractère"
 	 * @param column Colonne où la valeur souhaitée se trouve
 	 * @return Valeur trouvée ou null
 	 */
-	String getString(String column);
+	public String getString(String column) {
+		return (String) new Object();
+	}
 
 	/**
 	 * Récupère une valeur de type "entier"
 	 * @param column Colonne où la valeur souhaitée se trouve
 	 * @return Valeur trouvée ou null
 	 */
-	Integer getInteger(String column);
+	public Integer getInteger(String column) {
+		return (Integer) new Object();
+	}
 
 	/**
 	 * Récupère une valeur de type "booléen"
 	 * @param column Colonne où la valeur souhaitée se trouve
 	 * @return Valeur trouvée ou null
 	 */
-	Boolean getBoolean(String column);
+	public Boolean getBoolean(String column) {
+		return (Boolean) new Object();
+	}
 
 	/**
 	 * Récupère une valeur de type "objet"<br/>
@@ -49,7 +59,9 @@ public interface DatabaseSet {
 	 * @param column Colonne où la valeur souhaitée se trouve
 	 * @return Valeur trouvée ou null
 	 */
-	Object getObject(String column);
+	public Object getObject(String column) {
+		return new Object();
+	}
 
 	/**
 	 * Récupère une valeur de type "short".<br/>
@@ -58,7 +70,9 @@ public interface DatabaseSet {
 	 * @param column Colonne où la valeur souhaitée se trouve
 	 * @return Valeur trouvée ou null
 	 */
-	Short getShort(String column);
+	public Short getShort(String column) {
+		return (Short) new Object();
+	}
 
 	/**
 	 * Récupère une valeur de type "byte".<br/>
@@ -67,7 +81,9 @@ public interface DatabaseSet {
 	 * @param column Colonne où la valeur souhaitée se trouve
 	 * @return Valeur trouvée ou null
 	 */
-	Byte getByte(String column);
+	public Byte getByte(String column) {
+		return (Byte) new Object();
+	}
 
 	/**
 	 * Récupère une valeur de type "big decimal".<br/>
@@ -76,41 +92,53 @@ public interface DatabaseSet {
 	 * @param column Colonne où la valeur souhaitée se trouve
 	 * @return Valeur trouvée ou null
 	 */
-	BigDecimal getBigDecimal(String column);
+	public BigDecimal getBigDecimal(String column) {
+		return (BigDecimal) new Object();
+	}
 
 	/**
 	 * Récupère une valeur de type "nombre à virgule"
 	 * @param column Colonne où la valeur souhaitée se trouve
 	 * @return Valeur trouvée ou null
 	 */
-	Float getFloat(String column);
+	public Float getFloat(String column) {
+		return (Float) new Object();
+	}
 
 	/**
 	 * Récupère une valeur de type "long nombre à virgule"
 	 * @param column Colonne où la valeur souhaitée se trouve
 	 * @return Valeur trouvée ou null
 	 */
-	Double getDouble(String column);
+	public Double getDouble(String column) {
+		return (Double) new Object();
+	}
 
 	/**
 	 * Récupère une valeur de type "long"
 	 * @param column Colonne où la valeur souhaitée se trouve
 	 * @return Valeur trouvée ou null
 	 */
-	Long getLong(String column);
+	public Long getLong(String column) {
+		return (Long) new Object();
+	}
 
 	/**
 	 * Récupère une valeur de type "timestamp" (nombre de secondes écoulées depuis le 1er janvier 1970)
 	 * @param column Colonne où la valeur souhaitée se trouve
 	 * @return Valeur trouvée ou null
 	 */
-	Timestamp getTimestamp(String column);
+	public Timestamp getTimestamp(String column) {
+		return (Timestamp) new Object();
+	}
 
 	/**
 	 * Récupère une valeur de type "date"
 	 * @param column Colonne où la valeur souhaitée se trouve
 	 * @return Valeur trouvée ou null
 	 */
-	Date getDate(String column);
+	public Date getDate(String column) {
+		return (Date) new Object();
+	}
 
 }

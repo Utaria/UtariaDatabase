@@ -2,6 +2,7 @@ package fr.utaria.utariadatabase.query;
 
 import fr.utaria.utariadatabase.result.DatabaseSet;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,14 +24,20 @@ import java.util.List;
  * @since 1.0.0
  * @author Utarwyn
  */
-public interface SelectQuery {
+public abstract class SelectQuery {
+
+	private SelectQuery() {
+
+	}
 
 	/**
 	 * Enregistre les tables de selection des données
 	 * @param froms Table où la selection va être lancée
 	 * @return Le même objet pour appeler les autres méthodes
 	 */
-	SelectQuery from(String... froms);
+	public SelectQuery from(String... froms) {
+		return this;
+	}
 
 	/**
 	 * Ajoute une jointure de selection.<br/>
@@ -42,7 +49,9 @@ public interface SelectQuery {
 	 * @param field2 2ème champ de la liaison
 	 * @return Le même objet pour appeler les autres méthodes
 	 */
-	SelectQuery join(String table, String field1, String field2);
+	public SelectQuery join(String table, String field1, String field2) {
+		return this;
+	}
 
 	/**
 	 * Ajoute une jointure de selection.<br/>
@@ -54,7 +63,9 @@ public interface SelectQuery {
 	 * @param field2 2ème champ de la liaison
 	 * @return Le même objet pour appeler les autres méthodes
 	 */
-	SelectQuery leftjoin(String table, String field1, String field2);
+	public SelectQuery leftjoin(String table, String field1, String field2) {
+		return this;
+	}
 
 	/**
 	 * Applique les conditions de la requête.<br/>
@@ -63,7 +74,9 @@ public interface SelectQuery {
 	 * @param conditions Conditions de la requête sous le format SQL (exemple: "coins < 500")
 	 * @return Le même objet pour appeler les autres méthodes
 	 */
-	SelectQuery where(String... conditions);
+	public SelectQuery where(String... conditions) {
+		return this;
+	}
 
 	/**
 	 * Groupe les attributs selon certains critères. Méthode MySQL avancée.<br/>
@@ -72,7 +85,9 @@ public interface SelectQuery {
 	 * @param groupsBy Critères ou champs pour appliquer le regroupement sur la requête
 	 * @return Le même objet pour appeler les autres méthodes
 	 */
-	SelectQuery groupBy(String... groupsBy);
+	public SelectQuery groupBy(String... groupsBy) {
+		return this;
+	}
 
 	/**
 	 * Trie les résultats de la requête selon certains critères.<br/>
@@ -80,14 +95,18 @@ public interface SelectQuery {
 	 * @param orders Chaîne d'un critère d'ordre au format SQL (ex: "coins DESC")
 	 * @return Le même objet pour appeler les autres méthodes
 	 */
-	SelectQuery order(String... orders);
+	public SelectQuery order(String... orders) {
+		return this;
+	}
 
 	/**
 	 * Limite les résultats de la requête à <b>length</b> valeurs.
 	 * @param length Nombre de résultats à obtenir au maximum
 	 * @return Le même objet pour appeler les autres méthodes
 	 */
-	SelectQuery limit(int length);
+	public SelectQuery limit(int length) {
+		return this;
+	}
 
 	/**
 	 * Limite les résultats entre la valeur <b>begin</b> et la valeur <b>end</b>.
@@ -95,7 +114,9 @@ public interface SelectQuery {
 	 * @param end Indice de fin de la limitation
 	 * @return Le même objet pour appeler les autres méthodes
 	 */
-	SelectQuery limit(int begin, int end);
+	public SelectQuery limit(int begin, int end) {
+		return this;
+	}
 
 	/**
 	 * Défini les attributs de la requête (remplace un par un dans l'ordre les "?" de la requête)<br/>
@@ -104,7 +125,9 @@ public interface SelectQuery {
 	 * @param attributes Attributs à passer à la requête
 	 * @return Le même objet pour appeler les autres méthodes
 	 */
-	SelectQuery attributes(Object... attributes);
+	public SelectQuery attributes(Object... attributes) {
+		return this;
+	}
 
 	/**
 	 * Lance la requête de sélection dans le but d'obtenir <b>un seul tuple</b>.<br/>
@@ -112,7 +135,9 @@ public interface SelectQuery {
 	 *
 	 * @return Le résultat souhaité s'il a été trouvé, null sinon.
 	 */
-	DatabaseSet find();
+	public DatabaseSet find() {
+		return (DatabaseSet) new Object();
+	}
 
 	/**
 	 * Lance la requête de sélection dans le but d'obtenir <b>plusieurs tuples</b>.<br/>
@@ -121,6 +146,8 @@ public interface SelectQuery {
 	 * @return Liste des tuples trouvés en résultat de la requête.
 	 *         Le tableau est vide si aucun tuple n'a été trouvé.
 	 */
-	List<DatabaseSet> findAll();
+	public List<DatabaseSet> findAll() {
+		return Collections.emptyList();
+	}
 
 }

@@ -10,8 +10,8 @@
     <version>dev-SNAPSHOT</version>
 
     <modules>
-        <module>utariadatabase-api</module>
         <module>utariadatabase</module>
+        <module>utariadatabase-api</module>
     </modules>
 
     <name>UtariaDatabase-Parent</name>

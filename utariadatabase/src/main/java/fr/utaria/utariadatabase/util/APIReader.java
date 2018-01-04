@@ -1,88 +1,90 @@
 package fr.utaria.utariadatabase.util;
 
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.util.Map;
 
 public class APIReader {
 
-	private static final String BASE_URL = "https://utaria.fr/api/";
+	private static final String API_ENDPOINT = "https://api.utaria.fr/v2/";
 
-	public static Object get(String method, String submethod, Map<String, String> params) throws Exception {
-		// Création de l'URL d'appel à l'API
-		String url = BASE_URL + method + "/" + submethod;
-		if (params.size() > 0)
-			url += "?" + APIReader.urlEncodeUTF8(params);
+	private static String authToken;
 
-		// Récupération du retour de l'API
-		String content = APIReader.readUrl(url);
+	private static YamlConfiguration configuration;
 
-		// Transformation des informations en format JSONObject pour une lecture plus facile
-		JSONParser parse = new JSONParser();
-		JSONObject result = (JSONObject) parse.parse(content);
+	public static boolean authenticate() {
+		if (authToken != null) return true;
 
-		if (result.containsKey("resultat"))
-			return result.get("resultat");
-		else
-			if (result.containsKey("error")) {
-				JSONObject error = (JSONObject) result.get("error");
+		YamlConfiguration configuration = getUtariaConfig();
+		if (configuration == null) return false;
 
-				throw new IllegalAccessException("API Erreur #" + String.format("%03d", (long) error.get("code")) + " : " + error.get("message"));
+		String name = configuration.getString("auth.name");
+		String params = "name=" + name + "&password=" + configuration.getString("auth.password");
+		JSONObject obj = APIReader.apiRequest("authenticate", "POST", params);
+
+		if (obj != null && (Boolean) obj.get("success")) {
+			authToken = (String) obj.get("token");
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static String getAuthToken() {
+		return authToken;
+	}
+
+	public static YamlConfiguration getUtariaConfig() {
+		if (configuration != null)
+			return configuration;
+
+		File confFile = new File("utaria.yml");
+		if (!confFile.exists())
+			return null;
+
+		return configuration = YamlConfiguration.loadConfiguration(confFile);
+	}
+
+	public static JSONObject apiRequest(String action, String method, String params) {
+		try {
+			URL url = new URL(API_ENDPOINT + action);
+
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+			conn.setDoOutput(true);
+			conn.setInstanceFollowRedirects(false);
+			conn.setRequestMethod(method);
+			conn.setRequestProperty("charset", "utf-8");
+			conn.setUseCaches(false);
+
+			if (method.equals("POST")) {
+				byte[] postData = params.getBytes("UTF-8");
+
+				conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+				conn.setRequestProperty("Content-Length", Integer.toString(postData.length));
+				conn.getOutputStream().write(postData);
 			}
 
-		return null;
-	}
+			// Code de retour incorrect, on ne retourne rien.
+			if (conn.getResponseCode() == 404)
+				return null;
 
-	private static String readUrl(String urlString) throws Exception {
-		BufferedReader reader = null;
+			Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 
-		try {
-			URL url = new URL(urlString);
-			reader = new BufferedReader(new InputStreamReader(url.openStream()));
+			StringBuilder sb = new StringBuilder();
+			for (int c; (c = in.read()) >= 0;)
+				sb.append((char)c);
 
-			StringBuffer buffer = new StringBuffer();
-
-			int read;
-			char[] chars = new char[1024];
-
-			while ((read = reader.read(chars)) != -1)
-				buffer.append(chars, 0, read);
-
-			return buffer.toString();
-		} finally {
-			if (reader != null)
-				reader.close();
+			return (JSONObject) new JSONParser().parse(sb.toString());
+		} catch (IOException | ParseException e) {
+			e.printStackTrace();
+			return null;
 		}
-	}
-
-	private static String urlEncodeUTF8(String s) {
-		try {
-			return URLEncoder.encode(s, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			throw new UnsupportedOperationException(e);
-		}
-	}
-
-	private static String urlEncodeUTF8(Map<?, ?> map) {
-		StringBuilder sb = new StringBuilder();
-
-		for (Map.Entry<?, ?> entry : map.entrySet()) {
-			if (sb.length() > 0)
-				sb.append("&");
-
-			sb.append(String.format("%s=%s",
-					urlEncodeUTF8(entry.getKey().toString()),
-					urlEncodeUTF8(entry.getValue().toString())
-			));
-		}
-
-		return sb.toString();
 	}
 
 }

@@ -23,14 +23,20 @@ import fr.utaria.utariadatabase.result.UpdateResult;
  * @since 1.0.0
  * @author Utarwyn
  */
-public interface SavingQuery {
+public abstract class SavingQuery {
+
+	private SavingQuery() {
+
+	}
 
 	/**
 	 * Enregistre les champs qui vont être touchés par la sauvegarde dans la table précisée
 	 * @param fields Champs touchés
 	 * @return Le même objet pour appeler les autres méthodes
 	 */
-	SavingQuery fields(String... fields);
+	public SavingQuery fields(String... fields) {
+		return this;
+	}
 
 	/**
 	 * Applique des valeurs aux champs précisés via la méthode {@link fr.utaria.utariadatabase.query.SavingQuery#fields(String...)}.<br/>
@@ -39,7 +45,9 @@ public interface SavingQuery {
 	 * @param values Valeurs à appliquer
 	 * @return Le même objet pour appeler les autres méthodes
 	 */
-	SavingQuery values(Object... values);
+	public SavingQuery values(Object... values) {
+		return this;
+	}
 
 	/**
 	 * Applique les conditions de la requête. Transforme de la même manière la requête en <b>UPDATE</b>.<br/>
@@ -48,7 +56,9 @@ public interface SavingQuery {
 	 * @param conditions Conditions de la requête sous le format SQL (exemple: "coins < 500")
 	 * @return Le même objet pour appeler les autres méthodes
 	 */
-	SavingQuery where(String... conditions);
+	public SavingQuery where(String... conditions) {
+		return this;
+	}
 
 	/**
 	 * Défini les attributs de la requête (remplace un par un dans l'ordre les "?" de la requête)<br/>
@@ -57,13 +67,17 @@ public interface SavingQuery {
 	 * @param attributes Attributs à passer à la requête
 	 * @return Le même objet pour appeler les autres méthodes
 	 */
-	SavingQuery attributes(Object... attributes);
+	public SavingQuery attributes(Object... attributes) {
+		return this;
+	}
 
 	/**
 	 * Exécute la requête pré-fabriquée grâce aux méthodes précédentes.
 	 * <b>DOIT être la dernière méthode appelée sur l'objet.</b>
 	 * @return Le résultat de la requête
 	 */
-	UpdateResult execute();
+	public UpdateResult execute() {
+		return (UpdateResult) new Object();
+	}
 
 }

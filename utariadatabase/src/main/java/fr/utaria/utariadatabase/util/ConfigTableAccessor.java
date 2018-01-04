@@ -24,10 +24,10 @@ public class ConfigTableAccessor extends DatabaseAccessor implements Runnable {
 
 	@Override
 	public void run() {
-		List<DatabaseSet> sets = this.getDB().select("name", "value").from("config").findAll();
+		List<DatabaseSet> sets = this.getDB().select("`key`", "value").from("config").findAll();
 
 		for (DatabaseSet set : sets)
-			this.datas.put(set.getString("name"), set.getString("value"));
+			this.datas.put(set.getString("key"), set.getString("value"));
 	}
 
 	public static void init(UtariaDatabasePlugin databasePlugin) {

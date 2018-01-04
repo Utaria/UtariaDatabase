@@ -5,7 +5,9 @@ public abstract class DatabaseAccessor {
 	private String databaseName;
 
 	public DatabaseAccessor(String databaseName) {
-		if (databaseName == null)
+		if (databaseName == null) return;
+
+		if (databaseName.isEmpty())
 			throw new NullPointerException("Le nom de la base ne peut pas être vide !");
 
 		this.databaseName = databaseName;

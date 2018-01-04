@@ -21,27 +21,37 @@ import fr.utaria.utariadatabase.result.UpdateResult;
  * @since 1.0.0
  * @author Utarwyn
  */
-public interface DeleteQuery {
+public abstract class DeleteQuery {
+
+	private DeleteQuery() {
+
+	}
 
 	/**
 	 * Défini le nom de la table où la requête va être executée.
 	 * @param table Nom de la table
 	 * @return Le même objet pour appeler les autres méthodes
 	 */
-	DeleteQuery from(String table);
+	public DeleteQuery from(String table) {
+		return (DeleteQuery) new Object();
+	}
 
 	/**
 	 * Défini les attributs de la requête (remplace un par un dans l'ordre les "?" de la requête)
 	 * @param attributes Attributs à passer à la requête
 	 * @return Le même objet pour appeler les autres méthodes
 	 */
-	DeleteQuery attributes(Object... attributes);
+	public DeleteQuery attributes(Object... attributes) {
+		return (DeleteQuery) new Object();
+	}
 
 	/**
 	 * Exécute la requête pré-fabriquée grâce aux méthodes précédentes.
 	 * <b>DOIT être la dernière méthode appelée sur l'objet.</b>
 	 * @return Le résultat de la requête
 	 */
-	UpdateResult execute();
+	public UpdateResult execute() {
+		return (UpdateResult) new Object();
+	}
 
 }

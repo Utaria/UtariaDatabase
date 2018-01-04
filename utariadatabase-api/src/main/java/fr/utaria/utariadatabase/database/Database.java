@@ -17,33 +17,45 @@ import fr.utaria.utariadatabase.query.SelectQuery;
  * @since 1.0.0
  * @author Utarwyn
  */
-public interface Database {
+public abstract class Database {
+
+	private Database() {
+
+	}
 
 	/**
 	 * Retourne le nom de la base de données liée à l'objet
 	 * @return Nom de la base de données
 	 */
-	String getName();
+	public String getName() {
+		return (String) new Object();
+	}
 
 	/**
 	 * Créée une requête de sélection sur la base
 	 * @param fields Champs souhaités que la requête va retourner
 	 * @return Objet représantant la requête qui va être executée
 	 */
-	SelectQuery select(String... fields);
+	public SelectQuery select(String... fields) {
+		return (SelectQuery) new Object();
+	}
 
 	/**
 	 * Créée une requête de mise à jour sur la base
 	 * @param table Table concernée par la mise à jour
 	 * @return Objet représantant la requête qui va être executée
 	 */
-	SavingQuery update(String table);
+	public SavingQuery update(String table) {
+		return (SavingQuery) new Object();
+	}
 
 	/**
 	 * Créée une requête de suppression dans la base
 	 * @param conditions Conditions de suppression sur la base
 	 * @return Objet représantant la requête qui va être executée
 	 */
-	DeleteQuery delete(String... conditions);
+	public DeleteQuery delete(String... conditions) {
+		return (DeleteQuery) new Object();
+	}
 
 }

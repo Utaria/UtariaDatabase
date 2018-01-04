@@ -9,6 +9,10 @@
         <version>dev-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <server-version>1.8.8-R0.1-SNAPSHOT</server-version>
+    </properties>
+
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>utariadatabase</artifactId>
@@ -24,7 +28,7 @@
         <dependency>
             <groupId>org.github.paperspigot</groupId>
             <artifactId>paperspigot-api</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <version>${server-version}</version>
             <optional>true</optional>
         </dependency>
         <!-- API Waterfall -->
@@ -49,12 +53,10 @@
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>
-        <!-- Tunnel SSH -->
         <dependency>
-            <groupId>com.jcraft</groupId>
-            <artifactId>jsch</artifactId>
-            <version>0.1.50</version>
-            <optional>true</optional>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.7.2</version>
         </dependency>
         <!-- Utilitaire -->
         <dependency>

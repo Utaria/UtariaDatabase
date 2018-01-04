@@ -7,7 +7,11 @@ package fr.utaria.utariadatabase.database;
  * @since 1.0.0
  * @author Utarwyn
  */
-public interface DatabaseManager {
+public abstract class DatabaseManager {
+
+	private DatabaseManager() {
+
+	}
 
 	/**
 	 * Enregistre une base de données en mémoire et se connecte à celle-ci.
@@ -17,7 +21,7 @@ public interface DatabaseManager {
 	 * @param databaseName Nom de la base de données à mémoriser
 	 * @throws IllegalArgumentException Erreur retournée si la connexion à la base de données n'a pas pu être établie.
 	 */
-	static void registerDatabase(String databaseName) {
+	public static void registerDatabase(String databaseName) {
 
 	}
 
@@ -29,7 +33,7 @@ public interface DatabaseManager {
 	 * @throws IllegalArgumentException Erreur envoyée si la base de données n'existe pas
 	 * @return
 	 */
-	static Database getDB(String databaseName) {
+	public static Database getDB(String databaseName) {
 		return null;
 	}
 
