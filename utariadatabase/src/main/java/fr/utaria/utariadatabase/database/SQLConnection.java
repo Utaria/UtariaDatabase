@@ -58,7 +58,11 @@ class SQLConnection {
 		try {
 			// Connexion à la base de données locale (SQLite)
 			SQLiteDataSource dataSource = new SQLiteDataSource();
-			dataSource.setUrl("jdbc:sqlite::resource:" + getClass().getResource("/db/" + this.host));
+			if (this.host.startsWith("internal:"))
+				dataSource.setUrl("jdbc:sqlite::resource:" + getClass().getResource("/db/" + this.host.replace("internal:", "")));
+			else
+				dataSource.setUrl("jdbc:sqlite:" + this.host);
+
 			dataSource.setReadOnly(true);
 
 			this.connection = dataSource.getConnection();
