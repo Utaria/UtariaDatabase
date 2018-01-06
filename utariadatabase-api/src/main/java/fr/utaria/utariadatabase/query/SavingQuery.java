@@ -72,6 +72,16 @@ public abstract class SavingQuery {
 	}
 
 	/**
+	 * Permet de lancer une requête de type REPLACE.<br/>
+	 * C'est-à-dire que si les données existes déjà, elles seront remplacées.
+	 *
+	 * @return Le même objet pour appeler les autres méthodes
+	 */
+	public SavingQuery replaceIfExists() {
+		return this;
+	}
+
+	/**
 	 * Exécute la requête pré-fabriquée grâce aux méthodes précédentes.
 	 * <b>DOIT être la dernière méthode appelée sur l'objet.</b>
 	 * @return Le résultat de la requête

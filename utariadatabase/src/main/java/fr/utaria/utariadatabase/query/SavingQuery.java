@@ -23,6 +23,8 @@ public class SavingQuery implements IQuery {
 
 	private List<Object> attributes;
 
+	private boolean replaceIfExists;
+
 	public SavingQuery(Database database, String table) {
 		this.db = database;
 		this.table = table;
@@ -55,6 +57,11 @@ public class SavingQuery implements IQuery {
 
 	public SavingQuery attributes(Object... attributes) {
 		Collections.addAll(this.attributes, attributes);
+		return this;
+	}
+
+	public SavingQuery replaceIfExists() {
+		this.replaceIfExists = true;
 		return this;
 	}
 
@@ -94,7 +101,12 @@ public class SavingQuery implements IQuery {
 
 			request.append(" WHERE ").append(StringUtils.join(this.conditions, " AND "));
 		} else {
-			request.append("INSERT INTO `").append(this.table).append('`');
+			String action = "INSERT";
+
+			if (this.replaceIfExists)
+				action = "REPLACE";
+
+			request.append(action).append(" INTO `").append(this.table).append('`');
 
 			if (this.fields.length > 0)
 				request.append("(").append(StringUtils.join(this.fields, ",")).append(")");
