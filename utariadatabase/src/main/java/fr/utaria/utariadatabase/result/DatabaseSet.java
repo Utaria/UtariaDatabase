@@ -68,10 +68,8 @@ public class DatabaseSet {
 	}
 
 	public Float getFloat(String key) {
-		if (set.containsKey(key) && set.get(key) instanceof Float)
-			return (Float) set.get(key);
-		else
-			return null;
+		Double d = getDouble(key);
+		return (d != null) ? d.floatValue() : null;
 	}
 
 	public Double getDouble(String key) {
