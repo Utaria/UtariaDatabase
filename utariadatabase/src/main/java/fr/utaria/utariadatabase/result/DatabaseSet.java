@@ -73,8 +73,12 @@ public class DatabaseSet {
 	}
 
 	public Double getDouble(String key) {
-		if (set.containsKey(key) && set.get(key) instanceof Double)
-			return (Double) set.get(key);
+		if (set.containsKey(key))
+			try {
+				return Double.parseDouble(set.get(key).toString());
+			} catch (Exception ignored) {
+				return null;
+			}
 		else
 			return null;
 	}
