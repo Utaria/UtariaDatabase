@@ -27,35 +27,27 @@ public abstract class Database {
 	 * Retourne le nom de la base de données liée à l'objet
 	 * @return Nom de la base de données
 	 */
-	public String getName() {
-		return (String) new Object();
-	}
+	public abstract String getName();
 
 	/**
 	 * Créée une requête de sélection sur la base
 	 * @param fields Champs souhaités que la requête va retourner
 	 * @return Objet représantant la requête qui va être executée
 	 */
-	public SelectQuery select(String... fields) {
-		return (SelectQuery) new Object();
-	}
+	public abstract SelectQuery select(String... fields);
 
 	/**
 	 * Créée une requête de mise à jour sur la base
 	 * @param table Table concernée par la mise à jour
 	 * @return Objet représantant la requête qui va être executée
 	 */
-	public SavingQuery update(String table) {
-		return (SavingQuery) new Object();
-	}
+	public abstract SavingQuery update(String table);
 
 	/**
 	 * Créée une requête de suppression dans la base
 	 * @param conditions Conditions de suppression sur la base
 	 * @return Objet représantant la requête qui va être executée
 	 */
-	public DeleteQuery delete(String... conditions) {
-		return (DeleteQuery) new Object();
-	}
+	public abstract DeleteQuery delete(String... conditions);
 
 }

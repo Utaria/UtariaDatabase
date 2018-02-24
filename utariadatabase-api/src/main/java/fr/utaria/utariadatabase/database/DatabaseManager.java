@@ -25,6 +25,10 @@ public abstract class DatabaseManager {
 
 	}
 
+	public static void applyMigrations(String databaseName) {
+
+	}
+
 	/**
 	 * Retourne l'objet lié à la base de données passée en paramètre.
 	 * Permet de récupérer simplement un objet représentant la base pour executer des requêtes.
@@ -34,7 +38,7 @@ public abstract class DatabaseManager {
 	 * @return
 	 */
 	public static Database getDB(String databaseName) {
-		return null;
+		return (Database) new Object();
 	}
 
 }

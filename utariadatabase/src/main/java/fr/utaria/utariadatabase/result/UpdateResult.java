@@ -21,6 +21,10 @@ public class UpdateResult {
 		return (this.generatedKeys.size() > 0) ? this.generatedKeys.get(0) : -1;
 	}
 
+	public int getLastInsertedId() {
+		return (this.generatedKeys.size() > 0) ? this.generatedKeys.get(this.generatedKeys.size() - 1) : -1;
+	}
+
 	public List<Integer> getGeneratedKeys() {
 		return this.generatedKeys;
 	}

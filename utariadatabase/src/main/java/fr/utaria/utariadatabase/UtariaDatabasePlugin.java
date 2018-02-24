@@ -1,6 +1,7 @@
 package fr.utaria.utariadatabase;
 
 import fr.utaria.utariadatabase.database.DatabaseManager;
+import fr.utaria.utariadatabase.migration.MigrationManager;
 import fr.utaria.utariadatabase.perm.PermissionManager;
 import fr.utaria.utariadatabase.util.APIReader;
 import fr.utaria.utariadatabase.util.ConfigTableAccessor;
@@ -24,8 +25,10 @@ public interface UtariaDatabasePlugin {
 		}
 
 		DatabaseManager.registerDatabase("global");
+
 		ConfigTableAccessor.init(this);
 		PermissionManager.init(this);
+		MigrationManager.init(this);
 	}
 
 	void runTimerTask(Runnable runnable, int delay, int timer);

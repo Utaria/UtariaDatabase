@@ -6,6 +6,7 @@ import fr.utaria.utariadatabase.util.APIReader;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.sqlite.SQLiteDataSource;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -20,6 +21,8 @@ class SQLConnection {
 
 	private boolean readOnly;
 
+	private DataSource dataSource;
+
 	private SQLConnection(String host, String databaseName) {
 		this.host = host;
 		this.databaseName = databaseName;
@@ -29,12 +32,12 @@ class SQLConnection {
 		return this.connection;
 	}
 
-	public boolean isFlat() {
-		return this.host.endsWith(".db");
-	}
-
 	public boolean isReadOnly() {
 		return this.readOnly;
+	}
+
+	public DataSource getDataSource() {
+		return this.dataSource;
 	}
 
 	private boolean connectToRemoteDataBase() {
@@ -71,6 +74,7 @@ class SQLConnection {
 			} else
 				dataSource.setUrl("jdbc:sqlite:" + this.host);
 
+			this.dataSource = dataSource;
 			this.connection = dataSource.getConnection();
 
 			InstanceManager.getInstance().log(Level.INFO, "Base de donnees locale '" + this.databaseName + "' prete et connectee.");
@@ -105,6 +109,7 @@ class SQLConnection {
 			dataSource.setPassword(password);
 			dataSource.setDatabaseName(this.databaseName);
 
+			this.dataSource = dataSource;
 			this.connection = dataSource.getConnection();
 
 			InstanceManager.getInstance().log(Level.INFO, "Base de donnees '" + this.databaseName + "' prete et connectee.");
@@ -122,6 +127,10 @@ class SQLConnection {
 
 			return false;
 		}
+	}
+
+	private boolean isFlat() {
+		return this.host.endsWith(".db");
 	}
 
 	public void closeConnection() {

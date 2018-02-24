@@ -1,6 +1,7 @@
 package fr.utaria.utariadatabase.database;
 
 import fr.utaria.utariadatabase.InstanceManager;
+import fr.utaria.utariadatabase.migration.MigrationLogger;
 import fr.utaria.utariadatabase.query.DeleteQuery;
 import fr.utaria.utariadatabase.query.IQuery;
 import fr.utaria.utariadatabase.query.SavingQuery;
@@ -8,13 +9,14 @@ import fr.utaria.utariadatabase.query.SelectQuery;
 import fr.utaria.utariadatabase.result.DatabaseSet;
 import fr.utaria.utariadatabase.result.UpdateResult;
 import fr.utaria.utariadatabase.util.APIReader;
+import org.flywaydb.core.Flyway;
+import org.flywaydb.core.api.logging.LogFactory;
 import org.json.simple.JSONObject;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-
 
 public class Database {
 
@@ -26,7 +28,7 @@ public class Database {
 
 	private SQLConnection connection;
 
-	private int lastInsertId;
+	private Flyway migrator;
 
 	private Database(String name) {
 		this.name = name;
@@ -87,9 +89,45 @@ public class Database {
 		ResultSet generatedKeys = st.getGeneratedKeys();
 		if (generatedKeys != null)
 			while (generatedKeys.next())
-				lastInsertId = generatedKeys.getInt(1);
+				keys.add(generatedKeys.getInt(1));
 
 		return new UpdateResult(rows, keys);
+	}
+
+	public void applyMigrationsFrom(Class clazz) {
+		String path = "migration/" + this.name;
+
+		// On regarde avant si le dossier existe.
+		if (clazz.getClassLoader().getResource(path) == null) {
+			InstanceManager.getInstance().log(Level.WARNING, "Dossier de migration '" + path + "' inexistant. Passons.");
+			return;
+		}
+
+		this.migrator = new Flyway(clazz.getClassLoader());
+		if (this.connection == null) return;
+
+		migrator.setBaselineOnMigrate(true);
+		migrator.setTable("_versioning");
+		migrator.setInstalledBy("SERVER");
+		migrator.setDataSource(this.connection.getDataSource());
+		migrator.setLocations(path);
+
+		LogFactory.setLogCreator(aClass -> new MigrationLogger());
+
+		try {
+			int nbMigrations = migrator.migrate();
+			String msg;
+
+			if (nbMigrations <= 1)
+				msg = nbMigrations + " migration appliquée !";
+			else
+				msg = nbMigrations + " migrations appliquées !";
+
+			InstanceManager.getInstance().log(Level.INFO, msg);
+		} catch (Exception ex) {
+			InstanceManager.getInstance().log(Level.WARNING, "Impossible d'appliquer les migrations sur la base " + this.name + " !");
+			ex.printStackTrace();
+		}
 	}
 
 	private void retreiveServerUrl() {

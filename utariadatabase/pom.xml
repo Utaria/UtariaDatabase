@@ -58,6 +58,13 @@
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.7.2</version>
         </dependency>
+        <!-- Système de versionning de base de données -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>5.0.7</version>
+            <optional>true</optional>
+        </dependency>
         <!-- Utilitaire -->
         <dependency>
             <groupId>org.apache.commons</groupId>

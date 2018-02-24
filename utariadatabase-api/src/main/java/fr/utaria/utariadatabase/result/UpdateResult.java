@@ -1,6 +1,5 @@
 package fr.utaria.utariadatabase.result;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -25,9 +24,7 @@ public abstract class UpdateResult {
 	 * Retourne le nombre de lignes touchées par la requête
 	 * @return Nombre de lignes
 	 */
-	public int getRowsAffected() {
-		return (Integer) new Object();
-	}
+	public abstract int getRowsAffected();
 
 	/**
 	 * Retourne le premier identifiant inséré par la requête.<br/>
@@ -35,9 +32,15 @@ public abstract class UpdateResult {
 	 *
 	 * @return Le premier identifiant inséré par la requête
 	 */
-	public int getFirstInsertedId() {
-		return (Integer) new Object();
-	}
+	public abstract int getFirstInsertedId();
+
+	/**
+	 * Retourne le dernier identifiant inséré par la requête.<br/>
+	 * N'est rempli que pour une requête de type INSERT, -1 sinon.<br/>
+	 *
+	 * @return Le dernier identifiant inséré par la requête
+	 */
+	public abstract int getLastInsertedId();
 
 	/**
 	 * Retourne la liste des clés générées par la requête.<br/>
@@ -45,8 +48,6 @@ public abstract class UpdateResult {
 	 *
 	 * @return Clés générées par la requête
 	 */
-	public List<Integer> getGeneratedKeys() {
-		return Collections.emptyList();
-	}
+	public abstract List<Integer> getGeneratedKeys();
 
 }
