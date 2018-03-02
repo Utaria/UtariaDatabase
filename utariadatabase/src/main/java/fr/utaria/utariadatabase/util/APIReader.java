@@ -1,6 +1,6 @@
 package fr.utaria.utariadatabase.util;
 
-import org.bukkit.configuration.file.YamlConfiguration;
+import fr.utaria.utariadatabase.InstanceManager;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -15,12 +15,12 @@ public class APIReader {
 
 	private static String authToken;
 
-	private static YamlConfiguration configuration;
+	private static Configuration configuration;
 
 	public static boolean authenticate() {
 		if (authToken != null) return true;
 
-		YamlConfiguration configuration = getUtariaConfig();
+		Configuration configuration = getUtariaConfig();
 		if (configuration == null) return false;
 
 		String name = configuration.getString("auth.name");
@@ -39,7 +39,7 @@ public class APIReader {
 		return authToken;
 	}
 
-	public static YamlConfiguration getUtariaConfig() {
+	public static Configuration getUtariaConfig() {
 		if (configuration != null)
 			return configuration;
 
@@ -47,7 +47,7 @@ public class APIReader {
 		if (!confFile.exists())
 			return null;
 
-		return configuration = YamlConfiguration.loadConfiguration(confFile);
+		return configuration = InstanceManager.getInstance().getConfiguration(confFile);
 	}
 
 	public static JSONObject apiRequest(String action, String method, String params) {

@@ -3,7 +3,7 @@ package fr.utaria.utariadatabase.database;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import fr.utaria.utariadatabase.InstanceManager;
 import fr.utaria.utariadatabase.util.APIReader;
-import org.bukkit.configuration.file.YamlConfiguration;
+import fr.utaria.utariadatabase.util.Configuration;
 import org.sqlite.SQLiteDataSource;
 
 import javax.sql.DataSource;
@@ -42,7 +42,7 @@ class SQLConnection {
 
 	private boolean connectToRemoteDataBase() {
 		if (this.isFlat()) return false;
-		YamlConfiguration configuration = APIReader.getUtariaConfig();
+		Configuration configuration = APIReader.getUtariaConfig();
 		if (configuration == null || !configuration.isConfigurationSection("sql.remote")) return false;
 
 		String host = this.host;
@@ -86,7 +86,7 @@ class SQLConnection {
 	}
 
 	private boolean connectToCustomDatabase() {
-		YamlConfiguration configuration = APIReader.getUtariaConfig();
+		Configuration configuration = APIReader.getUtariaConfig();
 		if (configuration == null || !configuration.isConfigurationSection("sql.custom")) return false;
 
 		return this.startMysqlConnection(

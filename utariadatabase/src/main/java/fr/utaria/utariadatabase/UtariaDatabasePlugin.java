@@ -5,7 +5,9 @@ import fr.utaria.utariadatabase.migration.MigrationManager;
 import fr.utaria.utariadatabase.perm.PermissionManager;
 import fr.utaria.utariadatabase.util.APIReader;
 import fr.utaria.utariadatabase.util.ConfigTableAccessor;
+import fr.utaria.utariadatabase.util.Configuration;
 
+import java.io.File;
 import java.util.logging.Level;
 
 public interface UtariaDatabasePlugin {
@@ -32,5 +34,7 @@ public interface UtariaDatabasePlugin {
 	}
 
 	void runTimerTask(Runnable runnable, int delay, int timer);
+
+	Configuration getConfiguration(File file);
 
 }

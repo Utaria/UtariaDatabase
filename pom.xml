@@ -44,6 +44,7 @@
                             <artifactSet>
                                 <includes>
                                     <include>org.apache.commons:commons-*</include>
+                                    <include>com.googlecode.json-simple:*</include>
                                     <include>commons-logging:*</include>
                                     <include>org.flywaydb:flyway-core</include>
                                 </includes>
