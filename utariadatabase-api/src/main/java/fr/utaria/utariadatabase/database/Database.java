@@ -1,8 +1,12 @@
 package fr.utaria.utariadatabase.database;
 
 import fr.utaria.utariadatabase.query.DeleteQuery;
+import fr.utaria.utariadatabase.query.IQuery;
 import fr.utaria.utariadatabase.query.SavingQuery;
 import fr.utaria.utariadatabase.query.SelectQuery;
+import fr.utaria.utariadatabase.result.UpdateResult;
+
+import java.sql.SQLException;
 
 /**
  * Représente une base de données.
@@ -49,5 +53,7 @@ public abstract class Database {
 	 * @return Objet représantant la requête qui va être executée
 	 */
 	public abstract DeleteQuery delete(String... conditions);
+
+	public abstract UpdateResult execUpdateStatement(IQuery query) throws SQLException;
 
 }
