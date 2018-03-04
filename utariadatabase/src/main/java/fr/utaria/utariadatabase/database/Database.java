@@ -97,6 +97,12 @@ public class Database {
 	public void applyMigrationsFrom(Class clazz) {
 		String path = "migration/" + this.name;
 
+		// On n'active pas les migrations sur une base inaccessible en écriture
+		if (this.connection.isReadOnly()) {
+			InstanceManager.getInstance().log(Level.WARNING, "Les migrations n'ont pas pu être appliquées (écriture impossible).");
+			return;
+		}
+
 		// On regarde avant si le dossier existe.
 		if (clazz.getClassLoader().getResource(path) == null) {
 			InstanceManager.getInstance().log(Level.WARNING, "Dossier de migration '" + path + "' inexistant. Passons.");
