@@ -98,10 +98,8 @@ public class Database {
 		String path = "migration/" + this.name;
 
 		// On n'active pas les migrations sur une base inaccessible en écriture
-		if (this.connection.isReadOnly()) {
-			InstanceManager.getInstance().log(Level.WARNING, "Les migrations n'ont pas pu être appliquées (écriture impossible).");
+		if (this.connection != null && this.connection.isReadOnly())
 			return;
-		}
 
 		// On regarde avant si le dossier existe.
 		if (clazz.getClassLoader().getResource(path) == null) {
