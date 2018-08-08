@@ -3,5 +3,7 @@
 out/
 *.iml
 META-INF/*
+utariadatabase/target/*
+utariadatabase-api/target/*
 target/*
 dependency-reduced-pom.xml
