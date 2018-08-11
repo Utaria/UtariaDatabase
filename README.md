@@ -1,4 +1,4 @@
-# UTARIA : Plugin UtariaDatabase ! (V1)
+# UTARIA : Plugin "UtariaDatabase"
 
 [![Suivez-nous](https://img.shields.io/twitter/follow/Utaria_FR.svg?style=social&label=Suivez-nous%20sur%20Twitter)](https://twitter.com/Utaria_FR)
 [![Discord](https://img.shields.io/discord/220472433344380928.svg)](https://discord.gg/UNgPrPk) \
